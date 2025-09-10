@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+.vscode/
+sih-test/
+
+# Build artifacts
+dist/
+build/
+
+# Log files
+*.log
+
+# System files
+.DS_Store
+Thumbs.db

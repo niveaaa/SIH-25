@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <p>Live Civic Issue Reports</p>
+            <nav>
+                <a href="index.html">Report an Issue</a>
+                <a href="dashboard.html" class="active">View Dashboard</a>
+            </nav>
+        </header>
+
+        <main>
+            <h2>Report Map</h2>
+            <div id="map"></div>
+
+            <h2>Report List</h2>
+            <div id="report-list">
+                </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html>
