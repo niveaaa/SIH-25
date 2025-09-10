@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Civic Issue</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Civic Issue Reporter</h1>
+            <p>Help us keep our city clean and safe.</p>
+            <nav>
+                <a href="index.html" class="active">Report an Issue</a>
+                <a href="dashboard.html">View Dashboard</a>
+            </nav>
+        </header>
+
+        <main>
+            <form id="report-form">
+                <div class="form-group">
+                    <label for="issue-type">Type of Issue:</label>
+                    <select id="issue-type" required>
+                        <option value="">--Select an Issue--</option>
+                        <option value="Pothole">Pothole</option>
+                        <option value="Broken Streetlight">Broken Streetlight</option>
+                        <option value="Overflowing Bin">Overflowing Bin</option>
+                        <option value="Graffiti">Graffiti</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" rows="4" placeholder="Provide a brief description..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photo">Upload Photo:</label>
+                    <input type="file" id="photo" accept="image/*" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Location:</label>
+                    <button type="button" id="get-location-btn">Get Current Location</button>
+                    <p id="location-feedback">Location not set.</p>
+                    <input type="hidden" id="latitude">
+                    <input type="hidden" id="longitude">
+                </div>
+
+                <button type="submit" id="submit-btn">Submit Report</button>
+            </form>
+            <p id="success-message" class="hidden">Report submitted successfully!</p>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
+    <script src="app.js"></script>
+</body>
+</html>
