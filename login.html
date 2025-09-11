@@ -3,32 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
-    <!-- We use the same stylesheet as the other pages -->
-    <link rel="stylesheet" href="style.css">
+    <title>Civic Vision - Admin Portal</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <div class="container login-container">
+    <!-- Background shapes -->
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Back to main link -->
+    <a href="index.html" class="back-link" title="Back to main page">
+        ←
+    </a>
+
+    <div class="login-container">
         <header>
-            <h1>Admin Portal Login</h1>
+            <div class="admin-icon">
+                🔐
+            </div>
+            <h1>Admin Portal</h1>
+            <p class="subtitle">Secure access to civic management</p>
         </header>
+
         <main>
             <form id="login-form">
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" required autocomplete="username">
+                    <label for="username">👤 Username</label>
+                    <div class="input-container">
+                        <input type="text" id="username" required autocomplete="username" placeholder="Enter your username">
+                        <div class="input-icon">👤</div>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" required autocomplete="current-password">
+                    <label for="password">🔒 Password</label>
+                    <div class="input-container">
+                        <input type="password" id="password" required autocomplete="current-password" placeholder="Enter your password">
+                        <div class="input-icon">🔒</div>
+                    </div>
                 </div>
-                <button type="submit" id="login-btn">Log In</button>
+
+                <button type="submit" id="login-btn">
+                    🚀 Access Dashboard
+                </button>
             </form>
-            <p id="error-message"></p>
+
+            <div class="forgot-password">
+                <a href="#" onclick="alert('Contact your system administrator for password reset.')">
+                    Forgot password?
+                </a>
+            </div>
+
+            <div id="error-message"></div>
         </main>
     </div>
-    
+
     <script src="login.js"></script>
 </body>
 </html>
-
