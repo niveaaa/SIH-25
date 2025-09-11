@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE ---
     // It must be the same config object as in app.js
    const firebaseConfig = {
-    apiKey: "API-KEY",
-    authDomain: "DOMAIN",
-    projectId: "PROJECT-ID",
-    storageBucket: "BUCKET",
-    messagingSenderId: "SENDER-ID",
-    appId: "APP-ID"
+    apiKey: "AIzaSyCszCrDEQI3_L-QBOe1M3vEkmHncAZimGQ",
+    authDomain: "sih-25-a57ae.firebaseapp.com",
+    projectId: "sih-25-a57ae",
+    storageBucket: "sih-25-a57ae.firebasestorage.app",
+    messagingSenderId: "447925099014",
+    appId: "1:447925099014:web:8d4003b39c4d62a4838187"
     };
 
     // --- 2. INITIALIZE FIREBASE AND FIRESTORE ---
