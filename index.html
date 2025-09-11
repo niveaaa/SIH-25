@@ -3,55 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Civic Issue</title>
+    <title>Civic Vision - Report Issues</title>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
+    <!-- Animated background particles -->
+    <div class="particles"></div>
+
     <div class="container">
         <header>
-            <h1>Civic Issue Reporter</h1>
-            <p>Help us keep our city clean and safe.</p>
+            <h1>Civic Vision</h1>
+            <p>Transforming communities through citizen engagement</p>
             <nav>
-                <a href="index.html" class="active">Report an Issue</a>
-                <a href="login.html">View Dashboard</a>
+                <a href="#" class="active">📋 Report Issue</a>
+                <a href="login.html">📊 Dashboard</a>
             </nav>
         </header>
 
         <main>
             <form id="report-form">
                 <div class="form-group">
-                    <label for="issue-type">Type of Issue:</label>
+                    <label for="issue-type">🏷️ Type of Issue:</label>
                     <select id="issue-type" required>
-                        <option value="">--Select an Issue--</option>
-                        <option value="Pothole">Pothole</option>
-                        <option value="Broken Streetlight">Broken Streetlight</option>
-                        <option value="Overflowing Bin">Overflowing Bin</option>
-                        <option value="Graffiti">Graffiti</option>
-                        <option value="Other">Other</option>
+                        <option value="">--Select an Issue Type--</option>
+                        <option value="Pothole">🕳️ Pothole</option>
+                        <option value="Broken Streetlight">💡 Broken Streetlight</option>
+                        <option value="Overflowing Bin">🗑️ Overflowing Bin</option>
+                        <option value="Graffiti">🎨 Graffiti</option>
+                        <option value="Broken Sidewalk">🚶 Broken Sidewalk</option>
+                        <option value="Traffic Signal">🚦 Traffic Signal Issue</option>
+                        <option value="Water Leak">💧 Water Leak</option>
+                        <option value="Other">❓ Other</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" rows="4" placeholder="Provide a brief description..." required></textarea>
+                    <label for="description">📝 Description:</label>
+                    <textarea id="description" rows="4" placeholder="Describe the issue in detail... The more information you provide, the better we can help!" required></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label for="photo">Upload Photo:</label>
-                    <input type="file" id="photo" accept="image/*" required>
+                    <label>📸 Upload Photo:</label>
+                    <div class="file-upload" onclick="document.getElementById('photo').click()">
+                        <div class="file-upload-content">
+                            <div class="upload-icon">📷</div>
+                            <div>Click to upload a photo</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">JPG, PNG up to 10MB</div>
+                        </div>
+                        <input type="file" id="photo" accept="image/*" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Location:</label>
-                    <button type="button" id="get-location-btn">Get Current Location</button>
-                    <p id="location-feedback">Location not set.</p>
-                    <input type="hidden" id="latitude">
-                    <input type="hidden" id="longitude">
+                    <label>📍 Location:</label>
+                    <div class="location-section">
+                        <button type="button" id="get-location-btn">🎯 Get Current Location</button>
+                        <div id="location-feedback">📍 Location not set. Click above to get your current location.</div>
+                        <input type="hidden" id="latitude">
+                        <input type="hidden" id="longitude">
+                    </div>
                 </div>
 
-                <button type="submit" id="submit-btn">Submit Report</button>
+                <button type="submit" id="submit-btn">
+                    🚀 Submit Report
+                </button>
             </form>
-            <p id="success-message" class="hidden">Report submitted successfully!</p>
+            <div id="success-message" class="hidden">
+                🎉 Report submitted successfully! We'll review your issue and take appropriate action.
+            </div>
         </main>
     </div>
 
