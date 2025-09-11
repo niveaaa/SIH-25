@@ -1,0 +1,20 @@
+/* ... all your existing styles are above this line ... */
+
+/* --- NEW STYLES FOR THE LOGIN PAGE --- */
+.login-container {
+    max-width: 400px;
+    margin: 4rem auto; /* Centers the box vertically and horizontally */
+    text-align: center;
+    padding: 2rem;
+}
+
+.login-container header h1 {
+    margin-bottom: 2rem;
+}
+
+#error-message {
+    color: #e74c3c; /* Red for errors */
+    margin-top: 1rem;
+    font-weight: bold;
+    min-height: 20px; /* Prevents layout shift when message appears */
+}
