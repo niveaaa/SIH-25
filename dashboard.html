@@ -3,36 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Civic Vision - Admin Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
+    <!-- Animated background particles -->
+    <div class="particles"></div>
+
     <div class="container">
         <header>
             <h1>Admin Dashboard</h1>
-            <p>Live Civic Issue Reports</p>
+            <p>Real-time civic issue monitoring and management</p>
             <nav>
-                <a href="index.html">Report an Issue</a>
-                <a href="dashboard.html" class="active">View Dashboard</a>
+                <a href="index.html">📋 Report Issue</a>
+                <a href="dashboard.html" class="active">📊 Dashboard</a>
+                <a href="#" onclick="logout()">🚪 Logout</a>
             </nav>
         </header>
 
-        <main>
-            <h2>Report Map</h2>
-            <div id="map"></div>
-
-            <h2>Report List</h2>
-            <div id="report-list">
+        <main class="dashboard-grid">
+            <!-- Statistics Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-icon">📊</span>
+                    <div class="stat-number" id="total-reports">0</div>
+                    <div class="stat-label">Total Reports</div>
                 </div>
+                <div class="stat-card">
+                    <span class="stat-icon">⏳</span>
+                    <div class="stat-number" id="pending-reports">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">🔄</span>
+                    <div class="stat-number" id="progress-reports">0</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">✅</span>
+                    <div class="stat-number" id="resolved-reports">0</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+            </div>
+
+            <!-- Interactive Map Section -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🗺️ Issue Map</h2>
+                        <p class="section-subtitle">Geographic distribution of reported issues</p>
+                    </div>
+                </div>
+                <div id="map"></div>
+            </div>
+
+            <!-- Reports Management Section -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">📋 Reports Management</h2>
+                        <p class="section-subtitle">View and manage all civic issue reports</p>
+                    </div>
+                    <button class="refresh-btn" onclick="refreshReports()">
+                        🔄 Refresh
+                    </button>
+                </div>
+
+                <div class="controls">
+                    <input type="text" class="search-box" id="search-input" placeholder="🔍 Search reports...">
+                    <select class="filter-select" id="status-filter">
+                        <option value="">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                    <select class="filter-select" id="type-filter">
+                        <option value="">All Types</option>
+                        <option value="Pothole">Pothole</option>
+                        <option value="Broken Streetlight">Broken Streetlight</option>
+                        <option value="Overflowing Bin">Overflowing Bin</option>
+                        <option value="Graffiti">Graffiti</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div id="report-list">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>Loading reports...</p>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
     <script src="dashboard.js"></script>
 </body>
 </html>
