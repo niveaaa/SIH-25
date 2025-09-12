@@ -220,27 +220,205 @@ function filterReports() {
 }
 
 function updateReportStatus(reportId) {
-    const newStatus = prompt('Enter new status (Pending, In Progress, Resolved):');
-    if (!newStatus) return;
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'modal-overlay';
+    modalOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease-out;
+    `;
 
-    const validStatuses = ['Pending', 'In Progress', 'Resolved'];
-    if (!validStatuses.includes(newStatus)) {
-        showError('Invalid status. Please use: Pending, In Progress, or Resolved');
-        return;
-    }
+    // Create modal content
+    const modal = document.createElement('div');
+    modal.className = 'status-modal';
+    modal.style.cssText = `
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 24px;
+        padding: 2rem;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        animation: slideUp 0.3s ease-out;
+    `;
 
-    db.collection("reports").doc(reportId).update({
-        status: newStatus,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-        showSuccess('Report status updated successfully!');
-        refreshReports();
-    })
-    .catch((error) => {
-        console.error("Error updating report: ", error);
-        showError('Failed to update report status.');
+    // Get current status
+    const currentReport = allReports.find(r => r.id === reportId);
+    const currentStatus = currentReport?.status || 'Pending';
+
+    modal.innerHTML = `
+        <h3 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-size: 1.5rem;">
+            📝 Update Report Status
+        </h3>
+        <p style="color: #64748b; margin-bottom: 2rem; text-align: center;">
+            Current status: <strong>${currentStatus}</strong>
+        </p>
+        <div style="margin-bottom: 2rem;">
+            <label style="display: block; margin-bottom: 0.8rem; font-weight: 600; color: #374151;">
+                Select new status:
+            </label>
+            <select id="status-dropdown" style="
+                width: 100%;
+                padding: 16px 20px;
+                border: 2px solid rgba(103, 126, 234, 0.2);
+                border-radius: 16px;
+                font-size: 1rem;
+                background: rgba(255, 255, 255, 0.8);
+                color: #2c3e50;
+                transition: all 0.3s ease;
+            ">
+                <option value="Pending" ${currentStatus === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
+                <option value="In Progress" ${currentStatus === 'In Progress' ? 'selected' : ''}>🔄 In Progress</option>
+                <option value="Resolved" ${currentStatus === 'Resolved' ? 'selected' : ''}>✅ Resolved</option>
+            </select>
+        </div>
+        <div style="display: flex; gap: 1rem;">
+            <button id="cancel-btn" style="
+                flex: 1;
+                padding: 12px 24px;
+                background: linear-gradient(135deg, #6b7280, #4b5563);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            ">
+                Cancel
+            </button>
+            <button id="update-btn" style="
+                flex: 1;
+                padding: 12px 24px;
+                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            ">
+                Update Status
+            </button>
+        </div>
+    `;
+
+    modalOverlay.appendChild(modal);
+    document.body.appendChild(modalOverlay);
+
+    // Add hover effects
+    const cancelBtn = modal.querySelector('#cancel-btn');
+    const updateBtn = modal.querySelector('#update-btn');
+    const statusDropdown = modal.querySelector('#status-dropdown');
+
+    cancelBtn.addEventListener('mouseover', () => {
+        cancelBtn.style.transform = 'translateY(-2px)';
+        cancelBtn.style.boxShadow = '0 8px 25px rgba(107, 114, 128, 0.3)';
     });
+
+    cancelBtn.addEventListener('mouseout', () => {
+        cancelBtn.style.transform = 'translateY(0)';
+        cancelBtn.style.boxShadow = 'none';
+    });
+
+    updateBtn.addEventListener('mouseover', () => {
+        updateBtn.style.transform = 'translateY(-2px)';
+        updateBtn.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.3)';
+    });
+
+    updateBtn.addEventListener('mouseout', () => {
+        updateBtn.style.transform = 'translateY(0)';
+        updateBtn.style.boxShadow = 'none';
+    });
+
+    statusDropdown.addEventListener('focus', () => {
+        statusDropdown.style.borderColor = '#667eea';
+        statusDropdown.style.boxShadow = '0 0 0 4px rgba(103, 126, 234, 0.1)';
+    });
+
+    statusDropdown.addEventListener('blur', () => {
+        statusDropdown.style.borderColor = 'rgba(103, 126, 234, 0.2)';
+        statusDropdown.style.boxShadow = 'none';
+    });
+
+    // Handle cancel
+    cancelBtn.addEventListener('click', () => {
+        modalOverlay.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => modalOverlay.remove(), 300);
+    });
+
+    // Handle outside click
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            modalOverlay.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => modalOverlay.remove(), 300);
+        }
+    });
+
+    // Handle update
+    updateBtn.addEventListener('click', () => {
+        const newStatus = statusDropdown.value;
+        
+        if (newStatus === currentStatus) {
+            showError('Please select a different status');
+            return;
+        }
+
+        // Show loading state
+        updateBtn.innerHTML = '<span style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s linear infinite; margin-right: 8px;"></span>Updating...';
+        updateBtn.disabled = true;
+
+        db.collection("reports").doc(reportId).update({
+            status: newStatus,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(() => {
+            showSuccess(`Report status updated to: ${newStatus}`);
+            modalOverlay.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => modalOverlay.remove(), 300);
+            refreshReports();
+        })
+        .catch((error) => {
+            console.error("Error updating report: ", error);
+            showError('Failed to update report status.');
+            updateBtn.innerHTML = 'Update Status';
+            updateBtn.disabled = false;
+        });
+    });
+
+    // Focus on dropdown
+    setTimeout(() => statusDropdown.focus(), 100);
+
+    // Add keyframe animations to document if not already added
+    if (!document.getElementById('modal-animations')) {
+        const style = document.createElement('style');
+        style.id = 'modal-animations';
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+            @keyframes slideUp {
+                from { transform: translateY(30px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
 }
 
 function deleteReport(reportId) {
